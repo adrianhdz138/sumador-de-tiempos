@@ -1,0 +1,46 @@
+body {
+  background-color: bisque;
+  color: blueviolet;
+  font-size: 20pt;
+  text-align: center;
+  button {
+    color: blue;
+    background-color: yellow;
+    width: 65px;
+    font-weight: bold;
+  }
+  header {
+    font-weight: bold;
+    font-size: 30pt;
+  }
+  p#resultado {
+    font-size: 60pt;
+    color: greenyellow;
+    -webkit-text-stroke: 0.5px darkgreen;
+  }
+  input#redondear {
+    width: 45px;
+  }
+  div#historyDiv {
+    background-color: slategray;
+    border: 5px solid darkslategrey;
+    color: bisque;
+    width: -moz-fit-content;
+    width: fit-content;
+    padding: 10px;
+    margin: auto;
+    table#history tr td {
+      text-align: left;
+    }
+  }
+  div#inputDivision {
+    width: -moz-fit-content;
+    width: fit-content;
+    text-align: right;
+    margin: auto;
+    input {
+      width: auto;
+      text-align: left;
+    }
+  }
+}

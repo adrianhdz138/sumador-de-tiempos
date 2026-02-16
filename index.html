@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es-419">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sumar tiempos</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="logic.js"></script>
+  </head>
+  <body>
+    <header>Sumador de tiempos</header>
+    <hr noshade />
+    <div id="inputDivision">
+      <label for="days">Días:</label>
+      <input type="number" id="days" name="days" placeholder="0" /><br /><label
+        for="hours"
+        >Horas:</label
+      >
+      <input
+        type="number"
+        id="hours"
+        name="hours"
+        placeholder="00"
+      /><br /><label for="minutes">Minutos:</label>
+      <input
+        type="number"
+        id="minutes"
+        name="minutes"
+        placeholder="00"
+      /><br /><label for="seconds">Segundos:</label>
+      <input type="number" id="seconds" name="seconds" placeholder="00" />
+      <br />
+      <label for="mult">Factor:</label>
+      <input type="number" id="mult" name="mult" placeholder="1" />
+      <br />
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Nombre" />
+    </div>
+    <button type="button" id="sumar-btn">Sumar</button>
+    <button type="button" id="restar-btn">Restar</button>
+    <button type="button" id="clean-btn">Limpiar</button>
+    <p id="timesClicked"></p>
+    <p id="resultado"></p>
+    <button type="button" id="reset-btn">Reset</button>
+    <br />
+    <button type="button" id="divide-btn">Divide</button>
+    <br />
+    <p id="dividedResult"></p>
+    <label for="redondear">Redondear</label>
+    <br />
+    <input
+      type="number"
+      name="redondear"
+      id="redondear"
+      min="0"
+      max="10"
+      value="2"
+    />
+    <br />
+    <button type="button" id="round-btn">Round</button>
+    <h1>Historial</h1>
+    <div id="historyDiv"><table id="history"></table></div>
+    <hr noshade />
+    <footer>
+      <p>Hecho&nbsp;por: yo&nbsp;obviamente&nbsp;xd &copy;2023</p>
+    </footer>
+  </body>
+  <script src="events.js"></script>
+</html>
