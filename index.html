@@ -5,47 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sumar tiempos</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="logic.js"></script>
   </head>
   <body>
     <header>Sumador de tiempos</header>
     <hr noshade />
-    <div id="inputDivision">
-      <label for="days">Días:</label>
-      <input type="number" id="days" name="days" placeholder="0" /><br /><label
-        for="hours"
+    <form id="form-tiempos">
+      <label for="días">Días:</label>
+      <input type="number" id="días" name="días" placeholder="0" /><br /><label
+        for="horas"
         >Horas:</label
       >
       <input
         type="number"
-        id="hours"
-        name="hours"
+        id="horas"
+        name="horas"
         placeholder="00"
-      /><br /><label for="minutes">Minutos:</label>
+      /><br /><label for="minutos">Minutos:</label>
       <input
         type="number"
-        id="minutes"
-        name="minutes"
+        id="minutos"
+        name="minutos"
         placeholder="00"
-      /><br /><label for="seconds">Segundos:</label>
-      <input type="number" id="seconds" name="seconds" placeholder="00" />
+      /><br /><label for="segundos">Segundos:</label>
+      <input type="number" id="segundos" name="segundos" placeholder="00" />
       <br />
-      <label for="mult">Factor:</label>
-      <input type="number" id="mult" name="mult" placeholder="1" />
+      <label for="factor">Factor:</label>
+      <input type="number" id="factor" name="factor" placeholder="1" />
       <br />
       <label for="nombre">Nombre:</label>
       <input type="text" id="nombre" name="nombre" placeholder="Nombre" />
-    </div>
+    </form>
     <button type="button" id="sumar-btn">Sumar</button>
     <button type="button" id="restar-btn">Restar</button>
     <button type="button" id="clean-btn">Limpiar</button>
-    <p id="timesClicked"></p>
+    <p id="cuentaClics"></p>
     <p id="resultado"></p>
     <button type="button" id="reset-btn">Reset</button>
     <br />
     <button type="button" id="divide-btn">Divide</button>
     <br />
-    <p id="dividedResult"></p>
+    <p id="cociente"></p>
     <label for="redondear">Redondear</label>
     <br />
     <input
@@ -59,11 +58,12 @@
     <br />
     <button type="button" id="round-btn">Round</button>
     <h1>Historial</h1>
-    <div id="historyDiv"><table id="history"></table></div>
+    <table id="historial"></table>
     <hr noshade />
     <footer>
       <p>Hecho&nbsp;por: yo&nbsp;obviamente&nbsp;xd &copy;2023</p>
     </footer>
   </body>
+  <script src="logic.js"></script>
   <script src="events.js"></script>
 </html>

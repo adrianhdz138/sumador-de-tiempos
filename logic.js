@@ -1,111 +1,111 @@
-var currentResult;
-var timesClickedCount;
+var tiempoActual;
+var cuentaOperaciones;
 
 const pad = (n) =>
   n < 10 && n >= 0 ? "0" + n : n > -10 && n < 0 ? "-0" + -n : n;
 
-function inputToTime(m) {
-  const [days, hours, minutes, seconds] = [
-    "days",
-    "hours",
-    "minutes",
-    "seconds",
-  ].map((_) => parseFloat(document.getElementById(_).value || 0));
+function inputToTime() {
+  let datos = new FormData(document.getElementById("form-tiempos"));
 
-  const múltiploInput = document.getElementById("mult");
+  const nombre = datos.get("nombre");
+  datos.delete("nombre");
+  const factor = parseFloat(datos.get("factor") || 1);
+  datos.delete("factor");
 
-  const mult =
-    ((_) => (Number.isNaN(_) ? 1 : _))(parseFloat(múltiploInput.value)) * m;
-  const s = (seconds + (minutes + (hours + days * 24) * 60) * 60) * mult;
-  return [days, hours, minutes, seconds, mult, s];
+  const [días, horas, minutos, segundos] = Array.from(datos.values()).map((c) =>
+    parseFloat(c || 0),
+  );
+
+  const entradaTotalSegundos =
+    (((días * 24 + horas) * 60 + minutos) * 60 + segundos) * factor;
+
+  return [entradaTotalSegundos, días, horas, minutos, segundos, factor, nombre];
+}
+
+function registrarHistorial(días, horas, minutos, segundos, factor, nombre, m) {
+  if (días + horas + minutos + segundos == 0) return;
+
+  const fila = document.getElementById("historial").insertRow();
+  const td_vez = fila.insertCell();
+  const td_tiempo = fila.insertCell();
+  const td_nombre = fila.insertCell();
+
+  td_vez.textContent = `[${(++cuentaOperaciones).toString().padStart(3, "0")}]`;
+
+  td_tiempo.textContent = ` ${días}:${pad(horas)}:${pad(minutos)}:${pad(segundos)}${factor == 1 ? "" : ` * ${factor}`}`;
+  if (m == -1) td_tiempo.style.color = "red";
+
+  td_nombre.textContent = nombre === "" ? "" : ` \u00A0---\u00A0"${nombre}"`;
+  td_nombre.style.color = "black";
+
+  document.getElementById("cuentaClics").textContent =
+    `Veces:\u00A0${cuentaOperaciones}`;
 }
 
 function addTimes(m) {
-  const [days, hours, minutes, seconds, mult, s] = inputToTime(m);
-  if (s == 0) return;
-  currentResult += s;
-  timesClickedCount++;
-  if (displayTime() == 0) return;
+  const [entradaTotalSegundos, ...datos] = inputToTime();
 
-  const nombreInput = document.getElementById("nombre");
-  const númeroOperaciones = document.getElementById("timesClicked");
-  const historyTable = document.getElementById("history");
+  registrarHistorial(...datos, m);
 
-  const row = historyTable.insertRow();
-  const td1 = row.insertCell();
-  const td2 = row.insertCell();
+  if (entradaTotalSegundos == 0) return;
 
-  if (m == -1) td1.style.color = "red";
+  tiempoActual += entradaTotalSegundos * m;
 
-  let entryText = `[${timesClickedCount.toString().padStart(3, "0")}] ${days}:${pad(
-    hours,
-  )}:${pad(minutes)}:${pad(seconds)}`;
-  if (mult * m != 1) entryText += ` * ${mult * m}`;
-
-  td1.textContent = entryText;
-
-  const name = nombreInput.value;
-  if (name === "") {
-    td2.textContent = "";
-  } else {
-    td2.textContent = ` \u00A0---\u00A0"${name}"`;
-    td2.style.color = "black";
-  }
-
-  númeroOperaciones.textContent = `Veces:\u00A0${timesClickedCount}`;
+  displayTime();
 }
 
 function divideTime() {
-  if (timesClickedCount == 0) return;
-  const [, , , , , s] = inputToTime(1);
-  if (s == 0) return;
+  if (cuentaOperaciones == 0) return;
+  const total_s = inputToTime()[0];
+  if (total_s == 0) return;
 
-  const roundInput = document.getElementById("redondear");
-  const cocienteBloque = document.getElementById("dividedResult");
+  const decimalesEntrada = document.getElementById("redondear");
+  const cocienteBloque = document.getElementById("cociente");
 
   cocienteBloque.textContent = ((_) =>
-    _ != Math.floor(_) ? _.toFixed(parseInt(roundInput.value)) : _)(
-    currentResult / s,
+    _ != Math.floor(_) ? _.toFixed(parseInt(decimalesEntrada.value)) : _)(
+    tiempoActual / total_s,
   );
 }
 
 function displayTime() {
-  if (timesClickedCount == 0) return 0;
+  if (cuentaOperaciones == 0) return;
 
   const bloqueResultado = document.getElementById("resultado");
-  const roundInput = document.getElementById("redondear");
+  const decimalesEntrada = document.getElementById("redondear");
 
-  const absResult = Math.abs(currentResult);
-  var hoursResult = Math.floor(absResult / 3600);
-  const minutesResult = Math.floor((absResult % 3600) / 60);
-  var secondsResult = absResult % 60;
-  if (secondsResult != Math.floor(secondsResult))
-    secondsResult = secondsResult.toFixed(parseInt(roundInput.value));
-  if (hoursResult >= 24) {
-    const daysH = Math.floor(hoursResult / 24);
-    hoursResult = hoursResult % 24;
-    hoursResult = `${daysH}:${pad(hoursResult)}`;
+  const totalAbsoluto = Math.abs(tiempoActual);
+
+  var totalHoras = Math.floor(totalAbsoluto / 3600);
+  const totalMinutos = Math.floor((totalAbsoluto % 3600) / 60);
+  var totalSegundos = totalAbsoluto % 60;
+
+  if (totalSegundos != Math.floor(totalSegundos))
+    totalSegundos = totalSegundos.toFixed(parseInt(decimalesEntrada.value));
+
+  if (totalHoras >= 24) {
+    const totalDías = Math.floor(totalHoras / 24);
+    totalHoras = totalHoras % 24;
+    totalHoras = `${totalDías}:${pad(totalHoras)}`;
   }
-  if (currentResult < 0) hoursResult = `-${hoursResult}`;
-  bloqueResultado.textContent = `${hoursResult}:${pad(minutesResult)}:${pad(secondsResult)}`;
+
+  if (tiempoActual < 0) totalHoras = `-${totalHoras}`;
+
+  bloqueResultado.textContent = `${totalHoras}:${pad(totalMinutos)}:${pad(totalSegundos)}`;
 }
 
 function reset() {
-  const númeroOperaciones = document.getElementById("timesClicked");
-  const bloqueResultado = document.getElementById("resultado");
-  const bloqueCociente = document.getElementById("dividedResult");
-  const tablaHistorial = document.getElementById("history");
-
-  timesClickedCount = 0;
-  currentResult = 0;
-  bloqueResultado.textContent = "Aquí aparecerá el resultado...";
-  númeroOperaciones.textContent = "Veces:\u00A00";
-  tablaHistorial.replaceChildren();
-  bloqueCociente.replaceChildren();
+  cuentaOperaciones = 0;
+  tiempoActual = 0;
+  document.getElementById("resultado").textContent =
+    "Aquí aparecerá el resultado...";
+  document.getElementById("cuentaClics").textContent = "Veces:\u00A00";
+  document.getElementById("historial").replaceChildren();
+  document.getElementById("cociente").replaceChildren();
 }
 
 function clean() {
-  for (let campo of ["days", "hours", "minutes", "seconds", "mult", "nombre"]) {
-    document.getElementById(campo).value = "";
-  }
+  document.querySelectorAll("input").forEach(function (campo) {
+    campo.value = "";
+  });
 }

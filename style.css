@@ -13,15 +13,15 @@ body {
     font-weight: bold;
     font-size: 30pt;
   }
-  p#resultado {
+  #resultado {
     font-size: 60pt;
     color: greenyellow;
     -webkit-text-stroke: 0.5px darkgreen;
   }
-  input#redondear {
+  #redondear {
     width: 45px;
   }
-  div#historyDiv {
+  #historial {
     background-color: slategray;
     border: 5px solid darkslategrey;
     color: bisque;
@@ -29,11 +29,11 @@ body {
     width: fit-content;
     padding: 10px;
     margin: auto;
-    table#history tr td {
+    td {
       text-align: left;
     }
   }
-  div#inputDivision {
+  #form-tiempos {
     width: -moz-fit-content;
     width: fit-content;
     text-align: right;
